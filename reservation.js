@@ -45,7 +45,7 @@ reservationFromBase.open(
   )}`,
   true
 );
-reservationFromBase.addEventListener("load", function() {
+reservationFromBase.addEventListener("load", function () {
   const date = JSON.parse(this.responseText);
   [...date].forEach(e => reservations.push(e));
   showDaylyReservations(calendar.value);
@@ -80,7 +80,7 @@ const setSchemeSize = () => {
     9}px`;
   hoursWrapper.style.height = `${Math.floor(
     (window.innerHeight * 0.8 - document.querySelector(".table").clientHeight) /
-      11
+    11
   ) * 11}px`;
 };
 const setSize = () => {
@@ -111,6 +111,7 @@ function activeReservation(e) {
 
 function dragReservation(e) {
   if (!active) return;
+  newReservation.querySelector('.description').classList.add('hidden');
   newReservation.style.left = `${e.clientX - ofX}px`;
   newReservation.style.top = `${e.clientY + window.scrollY - ofY}px`;
 }
@@ -130,14 +131,14 @@ const setNewReservationValue = () => {
   newReservation.style.left = `${leftDistance +
     Math.floor(
       (parseInt(newReservation.style.left) - leftDistance + hourWidth / 2) /
-        hourWidth
+      hourWidth
     ) *
-      hourWidth}px`;
+    hourWidth}px`;
   newReservation.style.top = `${topDistance +
     Math.floor(
       (parseInt(newReservation.style.top) - topDistance) / hourHeight
     ) *
-      hourHeight}px`;
+    hourHeight}px`;
   newReservation.style.backgroundColor = "rgb(180, 190, 39)";
   selectTable.value = getTableByDistance(
     parseInt(newReservation.style.left) - leftDistance
@@ -165,6 +166,7 @@ const createReservationFromBase = reservation => {
   reservationDiv.querySelector("#select-hour").value = reservation.hour;
   reservationDiv.querySelector("#select-guests").value = reservation.guests;
   reservationDiv.querySelector("input").value = reservation.name;
+  reservationDiv.querySelector(".description").remove();
   setReservationSize(reservationDiv);
   reservationDiv.dataset.id = reservation._id;
   if (localStorage.getItem(reservationDiv.dataset.id) === "true")
@@ -276,7 +278,7 @@ const saveNewReservation = () => {
   const xhr = new XMLHttpRequest();
   xhr.open("POST", "https://czarka-api.herokuapp.com/demo-version", true);
   xhr.setRequestHeader("Content-type", "application/json");
-  xhr.addEventListener("load", function() {
+  xhr.addEventListener("load", function () {
     location.reload();
   });
   xhr.send(`{ "day": "${calendar.value}",
@@ -284,8 +286,8 @@ const saveNewReservation = () => {
               "name": "${name.value}",
               "table":"${selectTable.value}",
               "guests": "${
-                newReservation.querySelector("#select-guests").value
-              }"
+    newReservation.querySelector("#select-guests").value
+    }"
             }`);
 };
 
@@ -293,7 +295,7 @@ const deleteReservation = id => {
   const xhr = new XMLHttpRequest();
   xhr.open("DELETE", "https://czarka-api.herokuapp.com/demo-version", true);
   xhr.setRequestHeader("Content-type", "application/json");
-  xhr.addEventListener("load", function() {
+  xhr.addEventListener("load", function () {
     location.reload();
   });
   xhr.send(`{ "id": "${id}"}`);
@@ -303,7 +305,7 @@ const changeReservation = reservation => {
   const xhr = new XMLHttpRequest();
   xhr.open("PUT", "https://czarka-api.herokuapp.com/demo-version", true);
   xhr.setRequestHeader("Content-type", "application/json");
-  xhr.addEventListener("load", function() {
+  xhr.addEventListener("load", function () {
     location.reload();
   });
   xhr.send(`{ "id": "${reservation.dataset.id}",
@@ -334,7 +336,7 @@ selectHour.addEventListener(
 );
 
 //delegacja zdarzeń - nasłuchiwanie na usunięcie rezerwacji lub jej zmianę
-document.addEventListener("click", function(e) {
+document.addEventListener("click", function (e) {
   if (e.target.classList.contains("delete")) {
     deleteReservation(e.target.parentNode.dataset.id);
   }
@@ -344,7 +346,7 @@ document.addEventListener("click", function(e) {
 });
 
 //oznaczanie rezerwacji jako położona - zapis w local storage
-document.addEventListener("dblclick", function(e) {
+document.addEventListener("dblclick", function (e) {
   if (e.target.classList.contains("select-wrapper")) {
     e.target.classList.toggle("put");
     localStorage.setItem(

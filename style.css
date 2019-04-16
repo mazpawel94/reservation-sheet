@@ -163,6 +163,44 @@ body {
   background-image: linear-gradient(135deg, #81fbb8 10%, #28c76f 100%);
   z-index: 100;
 }
+.description {
+  position: absolute;
+  font-size: 12px;
+  top: 0px;
+  left: 60%;
+  width: 100%;
+  height: auto;
+  padding: 5px;
+  border-radius: 40px;
+  background-color: rgba(92, 188, 226, 0.87);
+  transform: translate(-50%, -110%);
+  -webkit-transform: translate(-50%, -110%);
+  -moz-transform: translate(-50%, -110%);
+  -ms-transform: translate(-50%, -110%);
+  -o-transform: translate(-50%, -110%);
+  -webkit-border-radius: 40px;
+  -moz-border-radius: 40px;
+  -ms-border-radius: 40px;
+  -o-border-radius: 40px;
+  animation: description-animation 2s linear infinite;
+  -webkit-animation: description-animation 5s linear infinite;
+  z-index: -1;
+}
+.description::after {
+  content: "";
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(92, 188, 226, 0.733);
+  width: 20px;
+  height: 20px;
+  clip-path: polygon(100% 0, 58% 0, 0 100%);
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+}
 
 .put {
   background-color: green;
@@ -352,5 +390,21 @@ button {
   75% {
     transform: translate(0, 160%);
     background-color: rgb(156, 34, 34);
+  }
+}
+
+@keyframes description-animation {
+  0% {
+    transform: translate(-50%, -110%);
+  }
+  20% {
+    transform: translate(-50%, -120%);
+    -webkit-transform: translate(-50%, -120%);
+    -moz-transform: translate(-50%, -120%);
+    -ms-transform: translate(-50%, -120%);
+    -o-transform: translate(-50%, -120%);
+  }
+  40% {
+    transform: translate(-50%, -110%);
   }
 }
