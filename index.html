@@ -1,12 +1,171 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Document</title>
+    <link
+      href="Datedropper3-master/datedropper.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+      integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>Utwórz rezerwację</title>
   </head>
+
   <body>
-    hello word
+    <div class="loader">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <p>Wczytuję dane...</p>
+    </div>
+    <div class="nav-wrapper">
+      <button class="unlock-delete">Usuń rezerwację</button>
+      <button class="unlock-change">Edytuj rezerwację</button>
+      <button class="save">Zapisz nową rezerwację</button>
+      <div class="date-wrapper">
+        <i class="far fa-calendar-alt"></i>
+        <button id="previous-day" data-value="-1">
+          <<
+        </button>
+        <input
+          id="date"
+          type="text"
+          data-format="d/m/Y"
+          data-large-mode="true"
+          data-fx="true"
+          data-min-year="2019"
+          data-max-year="2020"
+          data-lang="pl"
+          data-lock="from"
+        />
+        <button id="next-day" data-value="1">>></button>
+        <span></span>
+      </div>
+    </div>
+    <div class="scheme">
+      <div class="tables">
+        <div class="table" style="background-color:lightgreen">Lewy rattan</div>
+        <div class="table" style="background-color:lightgreen">
+          Prawy rattan
+        </div>
+        <div class="table" style="background-color:orange">Duży indyjski</div>
+        <div class="table" style="background-color:orange">Mały indyjski</div>
+        <div class="table" style="background-color:yellow">Japoński</div>
+        <div class="table" style="background-color:lightblue">Lewy chiński</div>
+        <div class="table" style="background-color:lightblue">
+          Prawy chiński
+        </div>
+        <div class="table" style="background-color:violet">Tablica</div>
+        <div class="table" style="background-color:violet">Baza</div>
+      </div>
+      <div class="hours">
+        <div class="hour" data-hour="10:00"></div>
+        <div class="hour" data-hour="11:00"></div>
+        <div class="hour" data-hour="12:00"></div>
+        <div class="hour" data-hour="13:00"></div>
+        <div class="hour" data-hour="14:00"></div>
+        <div class="hour" data-hour="15:00"></div>
+        <div class="hour" data-hour="16:00"></div>
+        <div class="hour" data-hour="17:00"></div>
+        <div class="hour" data-hour="18:00"></div>
+        <div class="hour" data-hour="19:00"></div>
+        <div class="hour" data-hour="20:00"></div>
+      </div>
+    </div>
+    <div class="reservation new">
+      <input
+        type="text"
+        name="name"
+        autocomplete="off"
+        autofocus
+        placeholder="Dodaj nową"
+      />
+      <div class="select-wrapper">
+        <select id="select-table">
+          <option value=""></option>
+          <option value="leftRattan">Lewy rattan</option>
+          <option value="rightRattan">Prawy rattan</option>
+          <option value="bigIndian">Duży indyjski</option>
+          <option value="smallIndian">Mały indyjski</option>
+          <option value="japanese">Japoński</option>
+          <option value="leftChinese">Lewy chiński</option>
+          <option value="rightChinese">Prawy chiński</option>
+          <option value="board">Tablica</option>
+          <option value="base">Baza</option>
+        </select>
+        <select id="select-hour">
+          <option value=""></option>
+          <option value="10:00">10:00</option>
+          <option value="10:15">10:15</option>
+          <option value="10:30">10:30</option>
+          <option value="10:45">10:45</option>
+          <option value="11:00">11:00</option>
+          <option value="11:15">11:15</option>
+          <option value="11:30">11:30</option>
+          <option value="11:45">11:45</option>
+          <option value="12:00">12:00</option>
+          <option value="12:15">12:15</option>
+          <option value="12:30">12:30</option>
+          <option value="12:45">12:45</option>
+          <option value="13:00">13:00</option>
+          <option value="13:15">13:15</option>
+          <option value="13:30">13:30</option>
+          <option value="13:45">13:45</option>
+          <option value="14:00">14:00</option>
+          <option value="14:15">14:15</option>
+          <option value="14:30">14:30</option>
+          <option value="14:45">14:45</option>
+          <option value="15:00">15:00</option>
+          <option value="15:15">15:15</option>
+          <option value="15:30">15:30</option>
+          <option value="15:45">15:45</option>
+          <option value="16:00">16:00</option>
+          <option value="16:15">16:15</option>
+          <option value="16:30">16:30</option>
+          <option value="16:45">16:45</option>
+          <option value="17:00">17:00</option>
+          <option value="17:15">17:15</option>
+          <option value="17:30">17:30</option>
+          <option value="17:45">17:45</option>
+          <option value="18:00">18:00</option>
+          <option value="18:15">18:15</option>
+          <option value="18:30">18:30</option>
+          <option value="18:45">18:45</option>
+          <option value="19:00">19:00</option>
+          <option value="19:15">19:15</option>
+          <option value="19:30">19:30</option>
+          <option value="19:45">19:45</option>
+          <option value="20:00">20:00</option>
+          <option value="20:15">20:15</option>
+          <option value="20:30">20:30</option>
+          <option value="20:45">20:45</option>
+          <option value="21:00">21:00</option>
+        </select>
+        <select id="select-guests">
+          <option value="1">1 osoba</option>
+          <option value="2" selected="selected">2 osoby</option>
+          <option value="3">3 osoby</option>
+          <option value="4">4 osoby</option>
+          <option value="5-6">5-6 osób</option>
+          <option value="7-10">7-10 osób</option>
+          <option value=">10">ponad 10 osób</option>
+        </select>
+      </div>
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.js"
+      integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+      crossorigin="anonymous"
+    ></script>
+    <script src="Datedropper3-master/datedropper.min.js"></script>
+    <script src="reservation.js"></script>
   </body>
 </html>
