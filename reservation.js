@@ -3,6 +3,7 @@ $("#date").dateDropper();
 const calendar = document.querySelector("#date");
 const calendarPage = document.getElementById("datedropper-0");
 const newReservation = document.querySelector(".reservation");
+const description = document.querySelector('.description');
 const selectTable = newReservation.querySelector("#select-table");
 const selectHour = newReservation.querySelector("#select-hour");
 const name = newReservation.querySelector("input");
@@ -12,6 +13,8 @@ const saveButton = document.querySelector(".save");
 const weekDay = document.querySelector(".date-wrapper span");
 const hoursWrapper = document.querySelector(".hours");
 const hourDivs = document.querySelectorAll(".hour");
+selectTable.value = '';
+selectHour.value = '';
 
 let active = false;
 let ofX, ofY, topDistance, leftDistance, hourWidth, hourHeight;
@@ -36,22 +39,6 @@ const weekDays = [
   "piątek",
   "sobota"
 ];
-
-const reservationFromBase = new XMLHttpRequest();
-reservationFromBase.open(
-  "GET",
-  `https://czarka-api.herokuapp.com/demo-version?password=${localStorage.getItem(
-    "password"
-  )}`,
-  true
-);
-reservationFromBase.addEventListener("load", function () {
-  const date = JSON.parse(this.responseText);
-  [...date].forEach(e => reservations.push(e));
-  showDaylyReservations(calendar.value);
-  document.querySelector(".loader").remove();
-});
-reservationFromBase.send();
 
 const getTableByDistance = distance =>
   Object.keys(tableDistance).find(key => tableDistance[key] === distance);
@@ -93,10 +80,12 @@ const setSize = () => {
     (key, index) => (tableDistance[key] = hourWidth * index)
   );
   [...reservationDivs].forEach(reservation => setReservationSize(reservation));
+  if(!selectHour.value && !selectTable.value) {
+    newReservation.style.top = "calc(50% - 50px)";
+    newReservation.style.left = 0;
+  }
 };
 setSize();
-newReservation.style.top = "calc(50% - 50px)";
-newReservation.style.left = 0;
 
 function activeReservation(e) {
   if (
@@ -111,15 +100,16 @@ function activeReservation(e) {
 
 function dragReservation(e) {
   if (!active) return;
-  newReservation.querySelector('.description').classList.add('hidden');
+  description.classList.add('hidden');
   newReservation.style.left = `${e.clientX - ofX}px`;
   newReservation.style.top = `${e.clientY + window.scrollY - ofY}px`;
 }
 
 function putReservation(e) {
+  console.log(e.target);
   active = false;
   if (
-    !e.target.parentNode.classList.contains("reservation") ||
+    !e.target.parentNode.classList.contains("new") ||
     e.target.nodeName === "INPUT"
   )
     return;
@@ -161,12 +151,12 @@ const createReservationFromBase = reservation => {
   const reservationDiv = document.createElement("div");
   reservationDiv.classList.add("reservation");
   reservationDiv.innerHTML = newReservation.innerHTML;
+  reservationDiv.querySelector(".description").remove();
   createElementInNewDiv(reservationDiv);
   reservationDiv.querySelector("#select-table").value = reservation.table;
   reservationDiv.querySelector("#select-hour").value = reservation.hour;
   reservationDiv.querySelector("#select-guests").value = reservation.guests;
   reservationDiv.querySelector("input").value = reservation.name;
-  reservationDiv.querySelector(".description").remove();
   setReservationSize(reservationDiv);
   reservationDiv.dataset.id = reservation._id;
   if (localStorage.getItem(reservationDiv.dataset.id) === "true")
@@ -272,6 +262,24 @@ const goToRight = () => {
   );
 };
 
+const getReservationsFromBase = () => {
+  const reservationsFromBase = new XMLHttpRequest();
+  reservationsFromBase.open(
+    "GET",
+    `https://czarka-api.herokuapp.com/demo-version?password=${localStorage.getItem(
+      "password"
+    )}`,
+    true
+  );
+  reservationsFromBase.addEventListener("load", function () {
+    const date = JSON.parse(this.responseText);
+    [...date].forEach(e => reservations.push(e));
+    showDaylyReservations(calendar.value);
+    document.querySelector(".loader").remove();
+  });
+  reservationsFromBase.send();
+}
+
 const saveNewReservation = () => {
   if (!selectTable.value || !selectHour.value) return;
   saveButton.style.visibility = "hidden";
@@ -369,6 +377,7 @@ document.querySelector(".unlock-change").addEventListener("click", () => {
 });
 
 document.addEventListener("keydown", e => {
+  description.classList.add('hidden');
   if (e.keyCode === 40) add15Minutes();
   if (e.keyCode === 38) substract15Minutes();
   if (e.keyCode === 37) goToLeft();
@@ -376,3 +385,5 @@ document.addEventListener("keydown", e => {
   if (e.keyCode === 13) saveNewReservation();
 });
 window.addEventListener("resize", setSize);
+
+getReservationsFromBase();

@@ -174,7 +174,7 @@ body {
   border-radius: 40px;
   background-color: rgba(92, 188, 226, 0.87);
   transform: translate(-50%, -110%);
-  -webkit-transform: translate(-50%, -110%);
+  /* -webkit-transform: translate(-50%, -110%);
   -moz-transform: translate(-50%, -110%);
   -ms-transform: translate(-50%, -110%);
   -o-transform: translate(-50%, -110%);
@@ -183,7 +183,7 @@ body {
   -ms-border-radius: 40px;
   -o-border-radius: 40px;
   animation: description-animation 2s linear infinite;
-  -webkit-animation: description-animation 5s linear infinite;
+  -webkit-animation: description-animation 5s linear infinite; */
   z-index: -1;
 }
 .description::after {
