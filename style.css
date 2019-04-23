@@ -54,6 +54,7 @@ body {
   height: 40px;
   line-height: 20px;
   text-align: center;
+  background-color: rgb(216, 210, 210);
 }
 
 #next-day {
@@ -162,6 +163,7 @@ body {
 .reservation.new {
   background-image: linear-gradient(135deg, #81fbb8 10%, #28c76f 100%);
   z-index: 100;
+  cursor: pointer;
 }
 .description {
   position: absolute;
@@ -174,16 +176,6 @@ body {
   border-radius: 40px;
   background-color: rgba(92, 188, 226, 0.87);
   transform: translate(-50%, -110%);
-  /* -webkit-transform: translate(-50%, -110%);
-  -moz-transform: translate(-50%, -110%);
-  -ms-transform: translate(-50%, -110%);
-  -o-transform: translate(-50%, -110%);
-  -webkit-border-radius: 40px;
-  -moz-border-radius: 40px;
-  -ms-border-radius: 40px;
-  -o-border-radius: 40px;
-  animation: description-animation 2s linear infinite;
-  -webkit-animation: description-animation 5s linear infinite; */
   z-index: -1;
 }
 .description::after {
