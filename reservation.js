@@ -46,7 +46,7 @@ const getTableByDistance = distance =>
 const changePositionByHour = hour => {
   const separateHour = hour.split(":");
   const distance = separateHour[0] - 10; //10 - pierwsza godzina, na którą można robić rezerwacje
-  return `${topDistance + separateHour[1] * (5 / 6) + distance * hourHeight}px`;
+  return `${topDistance + hourHeight*(separateHour[1]/60) + distance * hourHeight}px`;
 };
 
 const setReservationSize = reservation => {
@@ -85,7 +85,6 @@ const setSize = () => {
     newReservation.style.left = 0;
   }
 };
-setSize();
 
 function activeReservation(e) {
   if (
@@ -386,4 +385,5 @@ document.addEventListener("keydown", e => {
 });
 window.addEventListener("resize", setSize);
 
+setSize();
 getReservationsFromBase();
