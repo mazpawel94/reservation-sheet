@@ -282,12 +282,14 @@ button {
 .unlock-delete,
 .unlock-change,
 .save {
-  background-color: rgb(161, 150, 150);
+  background-color: rgb(14, 177, 35);
   margin: 0;
   margin-left: 10px;
   align-self: flex-end;
 }
-
+.disabled {
+  background-color: rgb(161, 150, 150);
+}
 .hidden {
   display: none;
 }

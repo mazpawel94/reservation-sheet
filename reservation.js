@@ -46,7 +46,7 @@ const getTableByDistance = distance =>
 const changePositionByHour = hour => {
   const separateHour = hour.split(":");
   const distance = separateHour[0] - 10; //10 - pierwsza godzina, na którą można robić rezerwacje
-  return `${topDistance + hourHeight*(separateHour[1]/60) + distance * hourHeight}px`;
+  return `${topDistance + hourHeight * (separateHour[1] / 60) + distance * hourHeight}px`;
 };
 
 const setReservationSize = reservation => {
@@ -80,7 +80,7 @@ const setSize = () => {
     (key, index) => (tableDistance[key] = hourWidth * index)
   );
   [...reservationDivs].forEach(reservation => setReservationSize(reservation));
-  if(!selectHour.value && !selectTable.value) {
+  if (!selectHour.value && !selectTable.value) {
     newReservation.style.top = "calc(50% - 50px)";
     newReservation.style.left = 0;
   }
@@ -105,7 +105,6 @@ function dragReservation(e) {
 }
 
 function putReservation(e) {
-  console.log(e.target);
   active = false;
   if (
     !e.target.parentNode.classList.contains("new") ||
@@ -113,6 +112,7 @@ function putReservation(e) {
   )
     return;
   setNewReservationValue();
+  activeSaveButton();
 }
 
 const setNewReservationValue = () => {
@@ -323,7 +323,11 @@ const changeReservation = reservation => {
               "guests": "${reservation.querySelector("#select-guests").value}"
             }`);
 };
-
+const activeSaveButton = () => {
+  if (selectHour.value && selectTable.value && name.value)
+    return saveButton.classList.remove('disabled');
+  saveButton.classList.add('disabled');
+}
 saveButton.addEventListener("click", saveNewReservation);
 calendarPage.addEventListener("click", showDaylyReservations);
 document.getElementById("previous-day").addEventListener("click", changeDate);
@@ -333,15 +337,19 @@ document.addEventListener("mousemove", dragReservation);
 document.addEventListener("mouseup", putReservation);
 selectTable.addEventListener(
   "change",
-  e =>
-    (newReservation.style.left = `${tableDistance[e.target.value] +
-      leftDistance}px`)
-);
+  e => {
+    newReservation.style.left = `${tableDistance[e.target.value] +
+      leftDistance}px`;
+    activeSaveButton();
+  });
 selectHour.addEventListener(
   "change",
-  e => (newReservation.style.top = changePositionByHour(e.target.value))
+  e => {
+    newReservation.style.top = changePositionByHour(e.target.value);
+    activeSaveButton();
+  }
 );
-
+name.addEventListener("input", activeSaveButton);
 //delegacja zdarzeń - nasłuchiwanie na usunięcie rezerwacji lub jej zmianę
 document.addEventListener("click", function (e) {
   if (e.target.classList.contains("delete")) {
