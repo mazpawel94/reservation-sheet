@@ -262,67 +262,64 @@ const goToRight = () => {
 };
 
 const getReservationsFromBase = () => {
-  const reservationsFromBase = new XMLHttpRequest();
-  reservationsFromBase.open(
-    "GET",
-    `https://czarka-api.herokuapp.com/demo-version?password=${localStorage.getItem(
-      "password"
-    )}`,
-    true
-  );
-  reservationsFromBase.addEventListener("load", function () {
-    const date = JSON.parse(this.responseText);
-    [...date].forEach(e => reservations.push(e));
-    showDaylyReservations(calendar.value);
-    document.querySelector(".loader").remove();
-  });
-  reservationsFromBase.send();
+  fetch("https://czarka-api.herokuapp.com/demo-version")
+    .then(resp => resp.json())
+    .then(data => {
+      data.forEach(reservation => reservations.push(reservation));
+      showDaylyReservations(calendar.value);
+      document.querySelector(".loader").remove();
+    }
+    );
 }
 
 const saveNewReservation = () => {
   if (!selectTable.value || !selectHour.value) return;
   saveButton.style.visibility = "hidden";
-  const xhr = new XMLHttpRequest();
-  xhr.open("POST", "https://czarka-api.herokuapp.com/demo-version", true);
-  xhr.setRequestHeader("Content-type", "application/json");
-  xhr.addEventListener("load", function () {
-    location.reload();
-  });
-  xhr.send(`{ "day": "${calendar.value}",
+  fetch("https://czarka-api.herokuapp.com/demo-version", {
+    method: "post",
+    headers: {
+      "Content-type": "application/json"
+    },
+    body: `{ "day": "${calendar.value}",
               "hour": "${selectHour.value}",
               "name": "${name.value}",
               "table":"${selectTable.value}",
               "guests": "${
-    newReservation.querySelector("#select-guests").value
-    }"
-            }`);
-};
+      newReservation.querySelector("#select-guests").value
+      }"
+            }`
+  })
+    .then(res => location.reload());
+}
 
 const deleteReservation = id => {
-  const xhr = new XMLHttpRequest();
-  xhr.open("DELETE", "https://czarka-api.herokuapp.com/demo-version", true);
-  xhr.setRequestHeader("Content-type", "application/json");
-  xhr.addEventListener("load", function () {
-    location.reload();
-  });
-  xhr.send(`{ "id": "${id}"}`);
-};
+  fetch("https://czarka-api.herokuapp.com/demo-version", {
+    method: "delete",
+    headers: {
+      "Content-type": "application/json"
+    },
+    body: `{ "id": "${id}"}`
+  })
+    .then(res => location.reload())
+}
 
 const changeReservation = reservation => {
-  const xhr = new XMLHttpRequest();
-  xhr.open("PUT", "https://czarka-api.herokuapp.com/demo-version", true);
-  xhr.setRequestHeader("Content-type", "application/json");
-  xhr.addEventListener("load", function () {
-    location.reload();
-  });
-  xhr.send(`{ "id": "${reservation.dataset.id}",
+  fetch("https://czarka-api.herokuapp.com/demo-version", {
+    method: "put",
+    headers: {
+      "Content-type": "application/json"
+    },
+    body: `{ "id": "${reservation.dataset.id}",
               "day": "${calendar.value}",
               "hour": "${reservation.querySelector("#select-hour").value}",
               "name": "${reservation.querySelector("input").value}",
               "table":"${reservation.querySelector("#select-table").value}",
               "guests": "${reservation.querySelector("#select-guests").value}"
-            }`);
-};
+            }`
+  })
+    .then(res => location.reload());
+}
+
 const activeSaveButton = () => {
   if (selectHour.value && selectTable.value && name.value)
     return saveButton.classList.remove('disabled');
