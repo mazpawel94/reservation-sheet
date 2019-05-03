@@ -111,7 +111,27 @@ body {
   position: relative;
   height: calc(100% / 11);
 }
+.now {
+  position: absolute;
+  width: 85%;
+  height: 1px;
+  background-color: red;
+}
 
+.now::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -5px;
+  height: 5px;
+  width: 5px;
+  border-radius: 50%;
+  background-color: red;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+}
 .hour:nth-child(2n) {
   background-color: rgb(200, 199, 199);
 }

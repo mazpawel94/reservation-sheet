@@ -13,9 +13,11 @@ const saveButton = document.querySelector(".save");
 const weekDay = document.querySelector(".date-wrapper span");
 const hoursWrapper = document.querySelector(".hours");
 const hourDivs = document.querySelectorAll(".hour");
+const timeLine = document.querySelector(".now");
 selectTable.value = '';
 selectHour.value = '';
 
+let now = new Date();
 let active = false;
 let ofX, ofY, topDistance, leftDistance, hourWidth, hourHeight;
 const reservations = [];
@@ -48,6 +50,11 @@ const changePositionByHour = hour => {
   const distance = separateHour[0] - 10; //10 - pierwsza godzina, na którą można robić rezerwacje
   return `${topDistance + hourHeight * (separateHour[1] / 60) + distance * hourHeight}px`;
 };
+
+const setActuallyTimeLine = () => {
+  now = new Date();
+  timeLine.style.top = `${topDistance + (now.getHours() - 10) * hourHeight + hourHeight * now.getMinutes() / 60}px`;
+}
 
 const setReservationSize = reservation => {
   reservation.style.width = `${hourWidth}px`;
@@ -84,6 +91,7 @@ const setSize = () => {
     newReservation.style.top = "calc(50% - 50px)";
     newReservation.style.left = 0;
   }
+  setActuallyTimeLine();
 };
 
 function activeReservation(e) {
@@ -392,3 +400,4 @@ window.addEventListener("resize", setSize);
 
 setSize();
 getReservationsFromBase();
+const refreshTimeLine = setInterval(setActuallyTimeLine, 1000 * 60 * 5);
